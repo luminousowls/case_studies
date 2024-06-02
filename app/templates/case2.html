@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Supply Allocation</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</head>
+<body>
+    <h1>Supply Allocation Process</h1>
+    <form action="/process" method="post">
+        <h2>Demand</h2>
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>Week</th>
+                    <th>Product</th>
+                    <th>Demand</th>
+                    <th>Protected</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for week, products in demand.items() %}
+                    {% for product, value in products.items() %}
+                        <tr>
+                            <td>{{ week }}</td>
+                            <td>{{ product }}</td>
+                            <td><input type="number" name="demand[{{ week }}][{{ product }}]" value="{{ value }}"></td>
+                            <td><input type="checkbox" name="protected_demand[{{ week }}][{{ product }}]"></td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <h2>Supply</h2>
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Supply</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product, value in supply.items() %}
+                    <tr>
+                        <td>{{ product }}</td>
+                        <td><input type="number" name="supply[{{ product }}]" value="{{ value }}"></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <input type="submit" value="Run Allocation">
+    </form>
+</body>
+</html>

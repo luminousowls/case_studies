@@ -1,0 +1,110 @@
+body{
+    background-color: #1a1a2e; /*dark blue background*/
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center; /*center all text*/
+    margin: 2em;
+    justify-content: center; /*center horizontally*/
+}
+h1{ /*title text*/
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+    margin-top: 2em;
+    margin-bottom: 2em;
+
+}
+
+.historical-container{
+    display: flex;
+    justify-content: center;
+}
+
+img {
+    max-width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    margin: 10px; /* Add some margin around images */
+}
+
+
+
+.slider-container{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+
+.estimate-container{
+    display: flex;
+    align-content: space-around; 
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+.clickable-div {
+    background-color: #ffffff; /* White background */
+    color: #0b3d91; /* Dark blue text */
+        padding: 20px;
+    margin: 20px auto;
+    width: 200px;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transition effects */
+}
+
+.clickable-div:hover {
+    background-color: #3b4d61; /* Dark blue background on hover */
+    color: #ffffff; /* White text on hover */
+    transform: scale(1.05); /* Slightly larger on hover */
+}
+
+
+input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    background: #ddd; /* Light grey background */
+    border-radius: 5px;
+    outline: none;
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+    --slider-fill-width: 0%; /* Custom property for fill width */
+}
+
+input[type=range]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: var(--slider-fill-width); /* Use custom property for fill width */
+    background: linear-gradient(90deg, #007acc 0%, #66ccff 100%); /* Gradient fill */
+    border-radius: 5px;
+    z-index: 1;
+    transition: width 0.2s ease-in-out;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 0; /* Hide the thumb */
+    height: 0; /* Hide the thumb */
+    background: transparent; /* Hide the thumb */
+}
+
+input[type=range]::-moz-range-thumb {
+    width: 0; /* Hide the thumb */
+    height: 0; /* Hide the thumb */
+    background: transparent; /* Hide the thumb */
+}
+
+input[type=range]::-ms-thumb {
+    width: 0; /* Hide the thumb */
+    height: 0; /* Hide the thumb */
+    background: transparent; /* Hide the thumb */
+}

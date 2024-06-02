@@ -1,0 +1,48 @@
+<!-- page1.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Case 1</title>
+    <link rel="stylesheet" href="../static/styles.css">
+    <script src="../static/case1.js"></script>
+</head>
+<body>
+    <h1>Case 1: Superman Plus Sales</h1>
+    <div class="historical-container">
+        <div>
+            <img id="princess_img" src="../static/images/princess.png" alt="historical sales for princess plus">
+        </div>
+        
+        <div>
+            <img id="dwarf_img" src="../static/images/dwarf.png" alt="historical sales for dwarf plus">
+        </div>
+    </div>
+    <div class="historical-container">
+        <div>
+            <img id="princess_regional_bar_img" src="../static/images/princess_regional_sales.png" alt=" bar chart representing historical regional sales for princess plus">
+        </div>
+        
+        <div>
+            <img id="dwarf_regional_bar_img" src="../static/images/dwarf_regional_sales.png" alt="bar chart representing historical regional for dwarf plus">
+        </div>
+    </div>
+    <div class = "estimate-container">
+        <div class = "slider-container">
+            <img id="estimate_img" src="../static/images/superman.png" alt="estimated sales for given price">
+            <input autocomplete="off" type="range" id="estimate_slider" min="0" max="300" value="205">
+        </div>
+        <div id="estimate-values">
+            <p>Price: $<span id="current-price">205</span></p>
+            <p>Sold units: <span id="total-sales">4766</span> units</p>
+            <p>Revenue: $<span id="total-revenue">977030</span></p>
+
+        </div>
+        </div>
+    </div>
+    <div class="clickable-div" onclick="window.location.href='/case2'">
+        Click here to go to Case 2
+    </div>
+    
+</body>
+</html>
