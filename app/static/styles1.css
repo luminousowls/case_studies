@@ -1,14 +1,13 @@
 body{
-    background-color: #1a1a2e; /*dark blue background*/
+    background-color: #152238; 
     color: white;
-    font-family: 'Courier New', Courier, monospace;
     text-align: center; /*center all text*/
     margin: 2em;
     justify-content: center; /*center horizontally*/
 }
+
 h1{ /*title text*/
     color: white;
-    font-family: 'Courier New', Courier, monospace;
     text-align: center;
     margin-top: 2em;
     margin-bottom: 2em;
@@ -43,25 +42,21 @@ img {
 
 }
 
-
-.clickable-div {
-    background-color: #ffffff; /* White background */
-    color: #0b3d91; /* Dark blue text */
-        padding: 20px;
-    margin: 20px auto;
-    width: 200px;
-    text-align: center;
-    border-radius: 10px;
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #1E3A5F;
+    color: white;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s; /* Smooth transition effects */
 }
 
-.clickable-div:hover {
-    background-color: #3b4d61; /* Dark blue background on hover */
-    color: #ffffff; /* White text on hover */
-    transform: scale(1.05); /* Slightly larger on hover */
+button:hover {
+    background-color: #254362;
 }
-
 
 input[type=range] {
     -webkit-appearance: none;

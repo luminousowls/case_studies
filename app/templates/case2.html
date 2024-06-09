@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/styles2.css">
+    <link rel="stylesheet" href="../static/sidebar.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case 2</title>
+    
+</head>
+<body>
+    <button id="toggle-sidebar-button"><i class="fas fa-bars"></i></button>
+    <div class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="#material-supply">Material A Supply</a></li>
+            <li><a href="#week-builds">Week 1 Builds</a></li>
+            <li><a href="#superman-plus-fct">FCT for Superman Plus</a></li>
+            <li><a href="#all-3-programs-fct">FCT for all 3 programs</a></li>
+            <li><a href="#allocation">Allocation</a></li>
+        </ul>
+    </div>    
+    <div class="content-wrapper">
+        <center><h1>Case 2: Allocate Supplies</h1></center>
+        <div class="container">
+            <div>
+                <h2 id="material-supply">Material A Supply</h2>
+                <table id="material-a-supply">
+                    <tr>
+                        <th>Jan Wk2</th>
+                        <th>Jan Wk3</th>
+                        <th>Jan Wk4</th>
+                        <th>Jan Wk5</th>
+                    </tr>
+                    <tr>
+                        <td>230</td>
+                        <td>270</td>
+                        <td>320</td>
+                        <td>380</td>
+                    </tr>
+                </table>
+                <div class = "container">
+                <button id="shift-left-button">Decrease Build Time</button>
+                <button id="shift-right-button">Increase Build Time</button>
+            </div>
+            </div>
+            <div>
+                <h2 id="week-builds">Week 1 Builds</h2>
+                <table>
+                    <tr>
+                        <th>Superman</th>
+                        <th>Superman Plus</th>
+                        <th>Superman Mini</th>
+                    </tr>
+                    <tr>
+                        <td>70</td>
+                        <td>70</td>
+                        <td>60</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="container">
+            <div>
+                <h2>FCT for Superman Plus</h2>
+                <table id="superman-plus-fct">
+                    <tr>
+                        <th>Weeks</th>
+                        <th>Jan Wk2</th>
+                        <th>Jan Wk3</th>
+                        <th>Jan Wk4</th>
+                        <th>Jan Wk5</th>
+                    </tr>
+                    <tr>
+                        <td>Online Store</td>
+                        <td class="selectable">20</td>
+                        <td class="selectable">30</td>
+                        <td class="selectable">40</td>
+                        <td class="selectable">50</td>
+                    </tr>
+                    <tr>
+                        <td>Retail Store</td>
+                        <td class="selectable">15</td>
+                        <td class="selectable">25</td>
+                        <td class="selectable">30</td>
+                        <td class="selectable">35</td>
+                    </tr>
+                    <tr>
+                        <td>Reseller Partners</td>
+                        <td class="selectable">50</td>
+                        <td class="selectable">65</td>
+                        <td class="selectable">80</td>
+                        <td class="selectable">90</td>
+                    </tr>
+                    <tr>
+                        <td>AMR</td>
+                        <td class="selectable">20</td>
+                        <td class="selectable">25</td>
+                        <td class="selectable">30</td>
+                        <td class="selectable">35</td>
+                    </tr>
+                    <tr>
+                        <td>Europe</td>
+                        <td class="selectable">5</td>
+                        <td class="selectable">10</td>
+                        <td class="selectable">15</td>
+                        <td class="selectable">15</td>
+                    </tr>
+                    <tr>
+                        <td>PAC</td>
+                        <td class="selectable">25</td>
+                        <td class="selectable">30</td>
+                        <td class="selectable selected">35</td>
+                        <td class="selectable">40</td>
+                    </tr>
+                </table>
+            </div>
+            <div>   
+                <h2>FCT for all 3 programs</h2>
+                <table>
+                    <tr>
+                        <th>Weeks</th>
+                        <th>Jan Wk2</th>
+                        <th>Jan Wk3</th>
+                        <th>Jan Wk4</th>
+                        <th>Jan Wk5</th>
+                    </tr>
+                    <tr>
+                        <td>Superman</td>
+                        <td>85</td>
+                        <td>100</td>
+                        <td>110</td>
+                        <td>120</td>
+                    </tr>
+                    <tr>
+                        <td>Superman Plus</td>
+                        <td>85</td>
+                        <td>120</td>
+                        <td>150</td>
+                        <td>175</td>
+                    </tr>
+                    <tr>
+                        <td>Superman Mini</td>
+                        <td>40</td>
+                        <td>60</td>
+                        <td>70</td>
+                        <td>75</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="allocation-container">
+            <h2 id="allocation">Allocation Table</h2>
+            <button id="create-allocation-button">Create Allocation</button>
+            <div id="table-container"></div>
+        </div>
+    </div>
+    <script src="../static/case2.js"></script>
+    <script src="../static/sidebar.js"></script>
+
+</body>
+</html>

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify, Response
+from flask import Blueprint, render_template, request, jsonify, Response, url_for, redirect
 import app.utils.case1
 import app.utils.case2
 import pandas as pd
@@ -7,8 +7,7 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def home():
-    return render_template('main.html')
-
+    return redirect(url_for('case1'))
 @main.route('/case1')
 def page1():
     return render_template('case1.html') 
@@ -19,28 +18,18 @@ def update_estimate():
     value = int(data['value'])
     img, total_sold =  app.utils.case1.predict_prices(value)
     return jsonify({'img': img, 'total_sales': total_sold})
-    
- 
+
 @main.route('/case2', methods=['GET', 'POST'])
-def case2():
-    if request.method == 'POST':
-        demand_df = pd.DataFrame(request.form.lists()).set_index(0).transpose()
-        supply_df = pd.DataFrame(request.form.lists()).set_index(0).transpose()
-        protect_list = request.form.getlist('protected_demand')
-        
-        app.utils.case2.save_data_to_csv(demand_df, supply_df, protect_list)
-        return render_template('results.html', tables=[s_sm_allocation.to_html(classes='data'), sp_allocation.to_html(classes='data')], titles=s_sm_allocation.columns.values)
-    else:
-        demand_df, supply_df, protect_list = app.utils.case2.read_data_from_csv()
-        return render_template('case2.html', demand=demand_df, supply=supply_df, protect=protect_list)
+def page2():
+   return render_template('case2.html')
 
-@main.route('/process', methods=['POST'])
-def process():
-    demand_df = pd.read_csv('demand.csv', index_col=0)
-    supply_df = pd.read_csv('supply.csv', index_col=0)
-    protect_df = pd.read_csv('protect.csv')
-    protect_list = protect_df.values.tolist()
+@main.route('/create-allocation', methods=['POST'])
+def create_allocation():
+    data = request.get_json()
+    materialAsupply = data['materialAsupply']
+    protected = data['protected']
+    a_df = pd.DataFrame([materialAsupply], columns=['Jan Wk2', 'Jan Wk3', 'Jan Wk4', 'Jan Wk5'])
 
-    s_sm_allocation, sp_allocation = app.utils.case2.process_data(demand_df, supply_df, protect_list)
-    
-    return render_template('results.html', tables=[s_sm_allocation.to_html(classes='data'), sp_allocation.to_html(classes='data')], titles=s_sm_allocation.columns.values)
+    allocation_df = app.utils.case2.allocate(a_df, protected)  # Replace with actual allocation logic
+
+    return allocation_df.to_html(classes='data', header="true",index=False,index_names=False)
