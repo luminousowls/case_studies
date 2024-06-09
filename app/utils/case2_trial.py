@@ -153,7 +153,6 @@ def allocate(protect_list_plus, protect_list_superman):
     total_allocation = pd.concat([s_sm_allocation, sp_allocation], axis=1)
     total_allocation.to_csv(csv_path + '/allocation.csv')
 
-# Example usage
 protect_list = [
     ['Jan Wk4', 'PAC', 35]
 ]

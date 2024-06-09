@@ -77,7 +77,6 @@ dwarf_price = 120
 #create_heatmap(find_monthly_average(princess_df), 'rocket', 'Princess Plus Monthly Sales', "app/static/images/princess_heatmap.png")
 #create_heatmap(find_monthly_average(dwarf_df), 'viridis', 'Dwarf Plus Monthly Sales', "app/static/images/dwarf_heatmap.png")
 
-sns.set_theme(style="whitegrid", rc={'xtick.color': 'white', 'ytick.color': 'white', 'axes.labelcolor': 'white', 'axes.titlecolor': 'white', 'font.family': 'Courier'})
 princess_df = princess_df.reset_index()
 dwarf_df = dwarf_df.reset_index()
 

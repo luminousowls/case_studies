@@ -95,6 +95,9 @@ def allocate(a_df, protect_list):
     wk1_builds = csv_to_df(csv_path, 'Wk1 Builds') #builds at week 2
     cpd_df = csv_to_df(csv_path, 'plus_demand', transpose=True) #cumulative demand for all venders of plus
 
+    #drop reseller partners column
+    cpd_df = cpd_df.drop('Reseller Partners', axis=1)
+
     #find amt of material/protect TOCHANGE  find it at the given week instead
     total_material = a_df.iloc[0, -1] 
     total_protect = 0
@@ -126,7 +129,10 @@ def allocate(a_df, protect_list):
     total_allocation.reset_index(inplace=True)
     total_allocation.rename(columns={'index': 'Weeks'}, inplace=True)
 
-    return total_allocation
+    sp_allocation.reset_index(inplace=True)
+    sp_allocation.rename(columns={'index': 'Weeks'}, inplace=True)
+
+    return sp_allocation
 a_df = csv_to_df(csv_path, 'Material A supply') # amount of supply
 
 

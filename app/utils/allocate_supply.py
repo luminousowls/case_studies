@@ -41,6 +41,7 @@ def allocate_supply(demand_df, supply_df,protect_list):
                 else:
                     to_allocate = max(weekly_supply * (product_demand / weekly_demand), 0)
                     to_allocate = min(to_allocate, product_demand)
+                    to_allocate = round(to_allocate)
                     allocation_df.at[week, column] = to_allocate + (allocation_df.at[prev_week, column] if prev_week else 0)
             #remaining supply
             remaining_supply[i] = weekly_supply - allocation_df.loc[week].sum() + protected_allocation.loc[week].sum()

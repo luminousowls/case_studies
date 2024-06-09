@@ -7,7 +7,7 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def home():
-    return redirect(url_for('case1'))
+    return redirect(url_for('main.page1'))
 @main.route('/case1')
 def page1():
     return render_template('case1.html') 
