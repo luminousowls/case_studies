@@ -70,88 +70,69 @@ protect_list_superman = [
 ]
 
 def allocate(protect_list_plus, protect_list_superman):
-    # Read cumulative superman demand fct data into df
-    csd_df = pd.read_csv(csv_path+'/Demand FCT.csv')
-    csd_df = csd_df.transpose()
-    header = csd_df.iloc[0]
+    # Read demand data for Superman and Superman Mini
+    csd_df = pd.read_csv(csv_path+'/Demand FCT.csv', index_col=0).transpose()
+    csd_df.columns = csd_df.iloc[0]
     csd_df = csd_df[1:]
-    csd_df.columns = header
 
-    # Read cumulative material fct data into df
-    a_df = pd.read_csv(csv_path+'/Material A supply.csv')
+    # Read cumulative material supply data
+    a_df = pd.read_csv(csv_path+'/Material A supply.csv', index_col=0).transpose()
     total_material = a_df.iloc[0, -1]
 
-    # Read week 1 existing builds data into df
-    wk1_builds = pd.read_csv(csv_path+'/Wk1 Builds.csv')
+    # Read week 1 builds data
+    wk1_builds = pd.read_csv(csv_path+'/Wk1 Builds.csv', index_col=0)
 
-    # Read cumulative plus demand fct data into df
-    cpd_df = pd.read_csv(csv_path+'/plus_demand.csv')
-    cpd_df = cpd_df.transpose()
-    header = cpd_df.iloc[0]
-    cpd_df = cpd_df[1:]
-    cpd_df.columns = header
-    cpd_df = cpd_df.drop('Reseller Partners', axis=1)
+    # Read demand data for Superman Plus
+    cpd_df = pd.read_csv(csv_path+'/plus_demand.csv', index_col=0).transpose()
+    cpd_df.columns = cpd_df.iloc[0]
+    cpd_df = cpd_df[1:].drop('Reseller Partners', axis=1)
 
-    # Create protect_df for Superman Plus
-    protect_df_plus = pd.DataFrame({'Weeks': cpd_df.index, 'Protect': [0] * len(cpd_df.index)})
-    protect_df_plus = protect_df_plus.set_index('Weeks')
+    # Initialize protection dataframes
+    protect_df_plus = pd.DataFrame({'Protect': [0] * len(cpd_df.index)}, index=cpd_df.index)
+    protect_df_superman = pd.DataFrame({'Protect': [0] * len(csd_df.index)}, index=csd_df.index)
+
     for week, product, qty in protect_list_plus:
         protect_df_plus.loc[week:, 'Protect'] += qty
 
-    # Create protect_df for Superman and Superman Mini
-    protect_df_superman = pd.DataFrame({'Weeks': csd_df.index, 'Protect': [0] * len(csd_df.index)})
-    protect_df_superman = protect_df_superman.set_index('Weeks')
     for week, product, qty in protect_list_superman:
         protect_df_superman.loc[week:, 'Protect'] += qty
 
-    # Make sure total protect is not greater than total material, update protect to reflect any lowered values
+    # Adjust protection values if total exceeds material
     total_protect = sum(qty for _, _, qty in protect_list_plus) + sum(qty for _, _, qty in protect_list_superman)
     if total_material < total_protect:
+        adjust_factor = total_material / total_protect
         for i in range(len(protect_list_plus)):
-            protect_list_plus[i][2] *= total_material / total_protect
+            protect_list_plus[i][2] *= adjust_factor
         for i in range(len(protect_list_superman)):
-            protect_list_superman[i][2] *= total_material / total_protect
+            protect_list_superman[i][2] *= adjust_factor
         total_protect = total_material
-        total_material = max(total_material - total_protect, 0)
 
-    # Loop through csd_df, product by product
-    for prod in csd_df:
-        # Remove existing wk1builds from demand
-        csd_df[prod] -= wk1_builds[prod][0]
-        # Remove negative numbers
-        csd_df[prod] = csd_df[prod].clip(lower=0)
+    # Deduct initial builds from demand
+    csd_df['Superman'] -= wk1_builds['Superman']
+    csd_df['Superman Mini'] -= wk1_builds['Superman Mini']
+    csd_df = csd_df.clip(lower=0)
 
-    # Supply available for superman plus after fulfilling superman and superman mini
-    sp_supply_df = a_df.iloc[0] - csd_df['Superman'] - csd_df['Superman Mini']
-    sp_supply_df = sp_supply_df.clip(lower=0)
+    # Calculate supply available for Superman Plus after fulfilling Superman and Superman Mini
+    sp_supply_df = a_df - csd_df[['Superman', 'Superman Mini']].sum(axis=1).clip(lower=0)
     
-    # Supply available for superman and superman mini
-    s_sm_supply_df = a_df.iloc[0] - sp_supply_df
-    
-    # Print statements for debugging
-    print("Cumulative Superman Demand DataFrame (csd_df):")
-    print(csd_df.head())
-    print("\nWeek 1 Builds DataFrame (wk1_builds):")
-    print(wk1_builds.head())
-    print("\nSuperman Plus Supply DataFrame (sp_supply_df):")
-    print(sp_supply_df.head())
-    print("\nSuperman and Superman Mini Supply DataFrame (s_sm_supply_df):")
-    print(s_sm_supply_df.head())
-    
-    # Allocate for superman and superman mini
-    s_sm_allocation = allocate_supply(csd_df[['Superman', 'Superman Mini']], s_sm_supply_df, protect_list)
-    
-    # Add week 1 builds to superman plus supply
+    # Supply for Superman and Superman Mini
+    s_sm_supply_df = a_df - sp_supply_df.clip(lower=0)
+
+    # Allocate for Superman and Superman Mini
+    s_sm_allocation = allocate_supply(csd_df[['Superman', 'Superman Mini']], s_sm_supply_df, protect_df_superman)
+
+    # Add week 1 builds to Superman Plus supply
     for i in range(len(sp_supply_df)):
         sp_supply_df.iloc[i] += wk1_builds['Superman Plus'][0]
     
-    # Allocate superman plus
-    sp_allocation = allocate_supply(cpd_df, sp_supply_df, protect_list)
-    print(sp_allocation)
-    
+    # Allocate for Superman Plus
+    sp_allocation = allocate_supply(cpd_df, sp_supply_df, protect_df_plus)
+
     # Concatenate allocations and save to CSV
     total_allocation = pd.concat([s_sm_allocation, sp_allocation], axis=1)
     total_allocation.to_csv(csv_path + '/allocation.csv')
+
+    return total_allocation
 
 protect_list = [
     ['Jan Wk4', 'PAC', 35]
